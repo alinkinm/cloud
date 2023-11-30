@@ -107,11 +107,7 @@ def handler(event, context):
     session = driver.table_client.session().create()
 
     session.transaction().execute(
-        """
-        PRAGMA TablePathPrefix("{}");
-        UPSERT INTO photo_originals (original_key, cut_key) VALUES
-            (key, object_name);
-        """.format(path),
+        'UPSERT INTO photo_originals (original_key, cut_key) VALUES ("'+key+'", "'+object_name+'");',
         commit_tx=True,
     )
 
